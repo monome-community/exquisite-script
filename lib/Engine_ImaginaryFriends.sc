@@ -38,9 +38,12 @@ Engine_ImaginaryFriends : CroneEngine {
 
 		this.addCommand(\note, "iff", {
 			arg msg;
-			voices[msg[1] - 1].set(\freq, msg[2]);
-			// TODO: level
-			voices[msg[1] - 1].set(\t_trigger, 1.0);
+			var voice = voices[msg[1] - 1];
+			voice.set(
+				\freq, msg[2],
+				\level, msg[3],
+				\t_trigger, 1.0
+			);
 		});
 
 		this.addCommand(\pan, "if", {

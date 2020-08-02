@@ -8,7 +8,7 @@ function ImaginaryFriends.mode(m)
 end
 
 function ImaginaryFriends.play_voice(voice, pitch, level)
-	engine.note(voice, math.pow(2, pitch) * 440, level)
+	engine.note(voice, math.pow(2, pitch) * 440, level / 10)
 end
 
 function ImaginaryFriends.add_params()
