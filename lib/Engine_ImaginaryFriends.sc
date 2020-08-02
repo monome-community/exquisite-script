@@ -23,7 +23,7 @@ Engine_ImaginaryFriends : CroneEngine {
 			var blend = Select.ar(pulse, [curve1, curve2]);
 			blend = LinSelectX.ar(curve.linlin(0.5, 1, 0, 1), [
 				blend,
-				tri.abs.lincurve(0, 1, 0, 1, -4) * tri.sign
+				(tri * 2.1).tanh
 			]);
 			blend = blend * envelope;
 			blend = RLPF.ar(blend, envelope.linexp(0, 1, 2000, SampleRate.ir * 0.4));
