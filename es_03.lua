@@ -9,9 +9,11 @@ pos = {1,1,1,1,1,1}
 div = {1,1,1,1,1,1}
 selector = 1
 
-j = crow.ii.jf
+engine.name = 'ImaginaryFriends'
+j = include 'lib/ifs'
 
 function init()
+  j.add_params()
   j.mode(1)
   clk = {}
   for i=1,6 do
