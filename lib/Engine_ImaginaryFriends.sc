@@ -17,7 +17,7 @@ Engine_ImaginaryFriends : CroneEngine {
 			var envelope = EnvGen.ar(Env.perc(0.005, time), t_trigger) * level;
 			var tri = VarSaw.ar(freq * (1 + modulator), 0.0, ramp);
 			var pulse = (Slope.ar(tri) > 0.0);
-			var scaled_curve = curve.clip(-1, 0.5).abs.lincurve(0, 1, 0, 100, 6) * curve.sign;
+			var scaled_curve = K2A.ar(curve.clip(-1, 0.5).abs.lincurve(0, 1, 0, 80, 6) * curve.sign);
 			var curve1 = tri.lincurve(-1, 1, -1, 1, scaled_curve.neg);
 			var curve2 = tri.lincurve(-1, 1, -1, 1, scaled_curve);
 			var blend = Select.ar(pulse, [curve1, curve2]);
@@ -26,7 +26,7 @@ Engine_ImaginaryFriends : CroneEngine {
 				tri.abs.lincurve(0, 1, 0, 1, -4) * tri.sign
 			]);
 			blend = blend * envelope;
-			blend = RLPF.ar(blend, envelope.linexp(0, 1, 2000, SampleRate.ir * 0.5), 1);
+			blend = RLPF.ar(blend, envelope.linexp(0, 1, 2000, SampleRate.ir * 0.4));
 			Out.ar(out, Pan2.ar(blend * 0.2, pan));
 		}).send(context.server);
 		
