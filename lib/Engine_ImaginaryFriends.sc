@@ -4,24 +4,30 @@ Engine_ImaginaryFriends : CroneEngine {
 	alloc {
 		SynthDef.new(\friend, {
 			arg out,
-			t_trigger,
-			level = 0.2,
-			freq = 440,
-			ratio = 0.5,
-			index = 1.0,
-			time = 1.0,
-			shape = 0.1,
-			curve = 0,
-			pan = 0.5;
+				t_trigger,
+				level = 1,
+				freq = 440,
+				ratio = 0.5,
+				index = 1.0,
+				time = 1.0,
+				curve = 0.0,
+				ramp = 0.5,
+				pan = 0.0;
 			var modulator = SinOsc.ar(freq * ratio) * index;
-			var carrier = SinOsc.ar(freq + modulator);
-			var envelope = Env.new(
-				levels: [0, 1, 0],
-				times: [shape * time, 1 - shape * time],
-				curve: [curve * -1, curve]
-			);
-			carrier = carrier * EnvGen.ar(envelope, t_trigger) * level;
-			Out.ar(out, Pan2.ar(carrier, pan));
+			var envelope = EnvGen.ar(Env.perc(0.005, time), t_trigger) * level;
+			var tri = VarSaw.ar(freq * (1 + modulator), 0.0, ramp);
+			var pulse = (Slope.ar(tri) > 0.0);
+			var scaled_curve = curve.clip(-1, 0.5).abs.lincurve(0, 1, 0, 100, 6) * curve.sign;
+			var curve1 = tri.lincurve(-1, 1, -1, 1, scaled_curve.neg);
+			var curve2 = tri.lincurve(-1, 1, -1, 1, scaled_curve);
+			var blend = Select.ar(pulse, [curve1, curve2]);
+			blend = SelectX.ar(curve.linlin(0.5, 1, 0, 1), [
+				blend,
+				tri.abs.lincurve(0, 1, 0, 1, -4) * tri.sign
+			]);
+			blend = blend * envelope;
+			blend = RLPF.ar(blend, envelope.linexp(0, 1, 2000, SampleRate.ir * 0.5), 1);
+			Out.ar(out, Pan2.ar(blend * 0.2, pan));
 		}).send(context.server);
 		
 		context.server.sync;
@@ -44,10 +50,10 @@ Engine_ImaginaryFriends : CroneEngine {
 			voices[msg[1]].set(\pan, msg[2]);
 		});
 
-		// shape range [0, 1.0]
-		this.addCommand(\shape, "f", {
+		// ramp range [0, 1.0]
+		this.addCommand(\ramp, "f", {
 			arg msg;
-			voices.do({ |voice| voice.set(\shape, msg[1])});
+			voices.do({ |voice| voice.set(\ramp, msg[1])});
 		});
 		
 		// time
