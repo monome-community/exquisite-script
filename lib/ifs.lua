@@ -46,7 +46,7 @@ function ImaginaryFriends.add_params()
 		id = 'index',
 		name = 'index',
 		type = 'control',
-		controlspec = controlspec.new(0, 10, 'exp', 0, 0.5),
+		controlspec = controlspec.new(0, 10, 'lin', 0, 0.5),
 		action = engine.index
 	}
 
