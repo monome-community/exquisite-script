@@ -36,8 +36,6 @@ Engine_ImaginaryFriends : CroneEngine {
 			Synth.new(\friend);
 		});
 
-		context.server.sync;
-
 		this.addCommand(\note, "iff", {
 			arg msg;
 			voices[msg[1] - 1].set(\freq, msg[2]);
