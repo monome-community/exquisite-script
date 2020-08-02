@@ -21,7 +21,7 @@ Engine_ImaginaryFriends : CroneEngine {
 			var curve1 = tri.lincurve(-1, 1, -1, 1, scaled_curve.neg);
 			var curve2 = tri.lincurve(-1, 1, -1, 1, scaled_curve);
 			var blend = Select.ar(pulse, [curve1, curve2]);
-			blend = SelectX.ar(curve.linlin(0.5, 1, 0, 1), [
+			blend = LinSelectX.ar(curve.linlin(0.5, 1, 0, 1), [
 				blend,
 				tri.abs.lincurve(0, 1, 0, 1, -4) * tri.sign
 			]);
