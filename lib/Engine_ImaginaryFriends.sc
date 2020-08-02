@@ -40,14 +40,14 @@ Engine_ImaginaryFriends : CroneEngine {
 
 		this.addCommand(\note, "iff", {
 			arg msg;
-			voices[msg[1]].set(\freq, msg[2]);
+			voices[msg[1] - 1].set(\freq, msg[2]);
 			// TODO: level
-			voices[msg[1]].set(\t_trigger, 1.0);
+			voices[msg[1] - 1].set(\t_trigger, 1.0);
 		});
 
 		this.addCommand(\pan, "if", {
 			arg msg;
-			voices[msg[1]].set(\pan, msg[2]);
+			voices[msg[1] - 1].set(\pan, msg[2]);
 		});
 
 		// ramp range [0, 1.0]
