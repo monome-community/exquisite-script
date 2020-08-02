@@ -12,7 +12,43 @@ function ImaginaryFriends.play_voice(voice, pitch, level)
 end
 
 function ImaginaryFriends.add_params()
-	params:add_group('imaginary friends', 6) -- TODO
+	params:add_group('imaginary friends', 11)
+
+	params:add{
+		id = 'ramp',
+		name = 'ramp',
+		type = 'control',
+		controlspec = controlspec.new(0, 1, 'lin', 0, 0.5),
+		action = engine.ramp
+	}
+	params:add{
+		id = 'time',
+		name = 'time',
+		type = 'control',
+		controlspec = controlspec.new(0.01, 10, 'exp', 0, 1),
+		action = engine.time
+	}
+	params:add{
+		id = 'curve',
+		name = 'curve',
+		type = 'control',
+		controlspec = controlspec.new(-1, 1, 'lin', 0, 0),
+		action = engine.curve
+	}
+	params:add{
+		id = 'ratio',
+		name = 'ratio',
+		type = 'control',
+		controlspec = controlspec.new(0.125, 16, 'exp', 0, 2),
+		action = engine.ratio
+	}
+	params:add{
+		id = 'index',
+		name = 'index',
+		type = 'control',
+		controlspec = controlspec.new(0, 10, 'exp', 0, 0.5),
+		action = engine.index
+	}
 
 	-- TODO: add base freq arg to engine
 	for v = 1, 6 do 
