@@ -8,10 +8,10 @@ Engine_ImaginaryFriends : CroneEngine {
 				level = 1,
 				freq = 440,
 				ratio = 0.5,
-				index = 1.0,
 				time = 1.0,
-				curve = 0.0,
 				ramp = 0.5,
+				index = 1.0,
+				curve = 0.0,
 				pan = 0.0;
 			var modulator = SinOsc.ar(freq * ratio) * index;
 			var envelope = EnvGen.ar(Env.perc(0.005, time), t_trigger) * level;
