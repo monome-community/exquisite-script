@@ -2,7 +2,7 @@
 
 graphics = include "lib/graphics"
 
-scale = {0,2,3,5,7,8,10,12,15}
+scale = {0,2,3,5,7,8,10}
 pattern = { {}, {}, {}, {}, {}, {} }
 steps = 8
 pos = {1,1,1,1,1,1}
@@ -34,10 +34,16 @@ function count(voice)
   j.play_voice(voice,pattern[voice][pos[voice]]/12, 8)
 end
 
+function wrap_note(note)
+  local octave = math.floor(note / #scale) - 1
+  local note = (note - 1) % #scale + 1
+  return scale[note] + octave * 12
+end
+
 function build()
   for i=1,6 do
     for n=1,steps do
-      pattern[i][n] = scale[math.random(#scale)]
+      pattern[i][n] = wrap_note(math.random(#scale * 3))
     end
   end
 end
