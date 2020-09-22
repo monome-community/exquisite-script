@@ -1,18 +1,32 @@
 local ImaginaryFriends = {}
 local n_voices = 6
 
+local j = crow.ii.jf
+
 function ImaginaryFriends.mode(m)
+	j.mode(m)
 	if m ~= 1 then
 		error('imaginary friends cannot imagine geode mode (yet?)')
 	end
 end
 
 function ImaginaryFriends.play_voice(voice, pitch, level)
-	engine.note(voice, math.pow(2, pitch) * 440, level / 10)
+	if params:get('source') == 1 then
+		engine.note(voice, math.pow(2, pitch) * 440, level / 10)
+	else
+		j.play_voice(voice, pitch, level)
+	end
 end
 
 function ImaginaryFriends.add_params()
-	params:add_group('imaginary friends', 11)
+	params:add_group('imaginary friends', 12)
+
+	params:add{
+		id='source',
+		name='source',
+		type='option',
+		options={'engine', 'just friends'},
+	}
 
 	params:add{
 		id = 'ramp',
@@ -51,7 +65,7 @@ function ImaginaryFriends.add_params()
 	}
 
 	-- TODO: add base freq arg to engine
-	for v = 1, 6 do 
+	for v = 1, 6 do
 		params:add{
 			id = 'pan_' .. v,
 			name = 'pan ' .. v,
